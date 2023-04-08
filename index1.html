@@ -4,15 +4,74 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
 
-    
-<spanclass="time" style="text-align: center;"></span>
-    
+    <div id="container1">
+        <div class="header">
+            <h1 id="header-title">Code Quiz</h1>
+        </div>
+        <div class="start-content">
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque, repellat.</p>
+            <button id="start-button">Start</button>
+        </div>
+    </div>
 
-<div id="main"></div>
+
+    <div id="question-answer-container">
+
+        <div id="question"></div>
+        <ol>
+            <li><button id="option1"></button></li>
+            <li><button id="option2"></button></li>
+            <li><button id="option3"></button></li>
+            <li><button id="option4"></button></li>
+        </ol>
+
+
+        <div id="result">
+            <p id="result-comment"></p>
+        </div>
+
+    </div>
+
+    <div id="timer-container">
+        <h1 class="time" style="text-align:right;"></h1>
+    </div>
+
+    
+        <div id="input-container">
+            <div class="card">
+                <h2>All Done!</h2>
+                <p id="text-result"></p>
+                <form method="POST">
+                  <div class="input-group">
+                    <label for="msg">Enter Initials</label>
+                    <input type="text" name="initials" id="msg" placeholder="Initials"/>
+                    <button id="submit">Submit</button>
+                  </div>
+                  <div id="msg"></div>
+            
+                </form>
+              </div>
+        </div>
+
+
+        <div id="highscores-container">
+            <h1>Highscores</h1>
+
+            <div>
+                <ol id="table-scores">
+                    
+                </ol>
+            </div>
+
+        </div>
+   
+
+
 
 
 <script src="app.js"></script>

@@ -1,30 +1,39 @@
-var headingEl = document.createElement("header")
-document.body.appendChild(headingEl);
+//once the start button is clicked, the header is empty and only the first question with the options appear on the screen//
+
+var startButtonEl = document.getElementById("start-button");
+var containerEl = document.getElementById("container1");
+var titleEl = document.getElementById("header-title");
+var contentEl = document.getElementById("start-content");
+var qaEl = document.getElementById("question-answer-container");
+var timerContainerEl = document.getElementById("timer-container");
+var formEl = document.getElementById("input-container");
+var timeEl = document.querySelector(".time");
+var resultPEl = document.getElementById("text-result");
+
+var initialsEl = document.getElementById("msg");
+var submitEl = document.getElementById("submit");
+
+var tableEl = document.getElementById("highscores-container");
+
+startButtonEl.addEventListener("click", function(){
+    qaGenerator();
+    initTime();
+    qaEl.setAttribute("style", "display:block");
+    containerEl.setAttribute("style", "display:none");
+    
+});
+// questions section//
 
 
 
-var titleEl = document.createElement("h1");
-titleEl.innerHTML = "Code Quiz";
-headingEl.appendChild(titleEl);
-
-
-var mainEl = document.createElement("main");
-document.body.appendChild(mainEl);
-
-var paragraphEl = document.createElement("p");
-paragraphEl.innerHTML = "try the challenge - 60 seconds to answer as much questions as possible";
-mainEl.appendChild(paragraphEl);
-
-var buttonEl = document.createElement("button");
-buttonEl.innerHTML = "start the quiz";
-mainEl.appendChild(buttonEl);
-
+// Building an array of objects wjere each object represents a question
+// with 4 possible answers button and an answer.
 
 var questionArray = [
     {
         question: "How many colors in the rainbow?",
         choices: ["One","Seven","Six","Eight"],
-        answer: "7",
+        answer: "Seven",
     },
 
     {
@@ -53,108 +62,125 @@ var questionArray = [
     }
 ]
 
+var index=0;
 
 
-// Creating questions and answers elements on the browser
-// let containerEl = document.createElement("div");
-// document.body.appendChild(containerEl);
-
-let containerEl = document.createElement("div");
-document.body.appendChild(containerEl);
-
-
-function qaBuilder() {
-
-   let i =0;
-    while (questionArray.length > i) { 
-    
-    let divEl = document.createElement("div");
-    divEl.setAttribute("class", "setQA");
-    containerEl.appendChild(divEl);
-
-    
-
-    let h2El = document.createElement("h2");
-    h2El.innerHTML = questionArray[i].question;
-    divEl.appendChild(h2El);
-
-    let listEl = document.createElement("ol");
-    divEl.appendChild(listEl);
-    
-    let li1 = document.createElement("li");
-    li1.innerHTML= questionArray[i].answer1;
-    listEl.appendChild(li1);
-
-    let li2 = document.createElement("li");
-    li2.innerHTML= questionArray[i].answer2;
-    listEl.appendChild(li2);
-
-    let li3 = document.createElement("li");
-    li3.innerHTML = questionArray[i].answer3;
-    listEl.appendChild(li3);
-
-    let li4 = document.createElement("li");
-    li4.innerHTML = questionArray[i].answer4;
-    listEl.appendChild(li4);
-
-// IDEA: TO DO ON CLICK EVEN LISTNER WHEN CLICK ON LI ELEMENT IS SWITCHING TO THE NEXT QUESTION
-
-   
-
-   i++;
-   
- }
+function qaGenerator() {
+    let questionEl = document.getElementById("question");
+    if (index < questionArray.length){
+        questionEl.textContent = questionArray[index].question;
+       console.log(questionArray[index].question);
+        for (let i = 0; i < 4; i++) {
+            let answerEl = document.getElementById("option" + (i+1));
+            answerEl.textContent = questionArray[index].choices[i];
+            answerEl.addEventListener("click", checkAnswer);
+        }
+    }
 }
 
-qaBuilder();
 
+function checkAnswer(ev){
+    var commentResultEl = document.getElementById("result-comment");
+    console.log(ev);
 
+    if (index >= questionArray.length) {
+        return;
+    }
 
+    if (ev !== null) {
+        console.log(ev.target.innerText);
+        console.log(questionArray[index].answer);
+        if (ev.target.innerText === questionArray[index].answer) {
+            console.log(commentResultEl);
+            commentResultEl.innerText = "Correct answer"; 
+            
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Setting timer 
-
-// var timeEl = document.querySelector(".time");
-
-// var mainel = document.querySelector("main");
-
-// var secondLeft = 60;
-
-// function setTime() {
-//     var timeInterval = setInterval(function() {
-//         secondLeft --;
-//         timeEl.textContent = secondLeft;
-
-//         if (secondLeft === 0) {
-//             clearInterval(timeInterval);
-//             sendMessage();
-//         }
+        else {
+            commentResultEl.innerText = "Wrong answer";
+            secondsLeft-=15;
+        }
+        index++;
         
-//     },1000);
-// }
 
-// // function to append a message 
+        if (index >= questionArray.length) {
+            commentResultEl.innerText = " ";
+            formEl.setAttribute("style", "display: block;");
+            qaEl.textContent = "";
+            var finalScore = timeEl.textContent
+            console.log("your final score is: "+ finalScore);
+            timeEl.textContent ="";
+            resultPEl.textContent = " your score is " + finalScore;
+            highScores(finalScore);
+            
+        }
+    }
+    qaGenerator();
+}
 
-// function sendMessage() {
-//     timeEl.textContent = " ";
+// time setter section
+
+var secondsLeft = 60;
+
+
+function initTime(){
+
+var timeIntervael = setInterval(function() {
+
+    secondsLeft--;
+
+    if (index < questionArray.length){
+    timeEl.textContent = secondsLeft;
+    if (secondsLeft <= 0) {
+        clearInterval(timeIntervael);
+        timeEl.textContent = 0;
+        }
+    }
+
+    else {
+    clearInterval(timeIntervael);
+    console.log(timeEl);
+    }
+},1000);
+}
+
+
+
+// when the user clicks submit, the input will be saved in the local storage 
+
+function highScores(score) {
+
+            submitEl.addEventListener("click", function(){
+                event.preventDefault();
+               
+                var initial = initialsEl.value.trim();
+               
+               localStorage.setItem(initial, score);
+
+               showtableScores(initial);
+               });
+}
+
+function showtableScores(initial){
+
+    var orderedListScores = document.getElementById("table-scores");
+    formEl.setAttribute("style", "display: none;");
+    tableEl.setAttribute("style", "display:block;");
+    var getScore = JSON.parse(localStorage.getItem(initial));
+    console.log(getScore);
+
     
-//     var scoreEl = document.createElement("div");
-//     scoreEl.textContent = "Tree Score";
-//     mainel.appendChild(scoreEl);
-// }
+    var scoreItem = document.createElement("li");
+    
 
-// setTime();
+    scoreItem.textContent = getScore.toString();
+    orderedListScores.appendChild(scoreItem);
+
+        
+    // });
+
+}
+
+
+
 

@@ -1,0 +1,19 @@
+#question-answer-container {
+    display: none;
+}
+
+#container1 {
+    display: block;
+}
+
+#input-container {
+    display: none;
+}
+
+.time {
+    display: block;
+}
+
+#highscores-container {
+    display: none;
+}
