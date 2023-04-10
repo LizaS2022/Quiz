@@ -1,8 +1,15 @@
+
+
+
 #question-answer-container {
     display: none;
 }
 
 #container1 {
+    display: block;
+}
+
+#result-comment {
     display: block;
 }
 
