@@ -14,7 +14,7 @@ This project aims to create a timed quiz that stores high scores so that the use
 
 Links
 
-Link of the deployed application.
+[Link of the deployed application.](https://lizas2022.github.io/Quiz1/)
 
 [Link of the gitHub repository](https://github.com/LizaS2022/Quiz1.git).
 
