@@ -159,7 +159,6 @@ function showtableScores(initial){
     orderedListScores.appendChild(scoreItem);
 }
 
-
 // redo quiz
 var redoQuiz = document.getElementById("redo-quiz");
 redoQuiz.addEventListener("click", function(){
@@ -174,6 +173,7 @@ redoQuiz.addEventListener("click", function(){
     timeEl.setAttribute("style", "display:block");
     timer();
 });
+
 
 
 

@@ -1,31 +1,26 @@
 body {
-font-size: 20px;
+font-size: 16px;
 font-weight: 500;
 font-family: 'Montserrat', sans-serif2020;
 background-color: lightskyblue;
-color: white;
-
+color: #fffaf7;
 }
 
 
 
 #container-page1 {
     display: block;
+    margin-top: 300px;
 }
 
 .time {
     display: block;
     font-size: 30px;
-    color: black;
-    
-    
-    
+    color: black; 
 }
 
 #question-answer-container {
     display: none;
-    
-    
 }
 
 #result-comment {
@@ -39,4 +34,9 @@ color: white;
 
 #highscores-container {
     display: none;
+}
+#timer-container{
+    text-align: right;
+    position: relative;
+    top: 70px;
 }
