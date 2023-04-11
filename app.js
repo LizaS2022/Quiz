@@ -3,7 +3,6 @@
 var startButtonEl = document.getElementById("start-button");
 var containerEl = document.getElementById("container-page1");
 var titleEl = document.getElementById("header-title");
-var contentEl = document.getElementById("start-content");
 var qaEl = document.getElementById("question-answer-container");
 let questionEl = document.getElementById("question");
 var timerContainerEl = document.getElementById("timer-container");
@@ -17,54 +16,10 @@ var submitEl = document.getElementById("submit");
 
 var tableEl = document.getElementById("highscores-container");
 var orderedListScores = document.getElementById("table-scores");
-var index = 0;
-var secondsLeft = 60;
 
-
-function timer(){
-    console.log(index);
-    console.log(secondsLeft);
-    var timeIntervael = setInterval(function() {
-    secondsLeft--;
-    if (index < questionArray.length){
-        timeEl.textContent = secondsLeft;
-        // console.log("seconds left: "+ secondsLeft);
-    
-    if (secondsLeft <= 0) {
-        clearInterval(timeIntervael);
-        timeEl.textContent = 0;
-        }
-    }
-},1000);
-}
-
-for (var i = 0; i < 4; i++) {
-    let answerEl = document.getElementById("option" + (i+1));
-    answerEl.addEventListener("click", function(e){
-    checkAnswer(e);
-    index++;
-    if (index === questionArray.length){
-        commentResultEl.setAttribute("style", "display:none;");
-        formEl.setAttribute("style", "display: block;");
-        qaEl.setAttribute("style", "display: none;");
-        finalScore();
-        }
-    else {
-        qaGenerator();}
-     });
-    }
-startButtonEl.addEventListener("click", function(){
-
-    qaGenerator();
-    
-    timer();
-    qaEl.setAttribute("style", "display:block");
-    containerEl.setAttribute("style", "display:none");
-});
 // questions section//
 // Building an array of objects wjere each object represents a question
 // with 4 possible answers button and an answer.
-
 var questionArray = [
     {
         question: "How many colors in the rainbow?",
@@ -98,49 +53,86 @@ var questionArray = [
     }
 ]
 
+var index = 0;
+var secondsLeft = 60;
+
+initButtonsClicks()
+
+//description: initlizes the buttons event listenrs for option1,2,3,4 such that each click check the answer,reduce timer if wrong and goes to next question 
+//input: no input
+//output: void
+function initButtonsClicks(){
+    for (var i = 1; i < 5; i++) {
+        let answerEl = document.getElementById("option" + (i));
+        answerEl.addEventListener("click", function(event){
+        checkAnswer(event);
+        index++;
+        if (index === questionArray.length){
+            commentResultEl.setAttribute("style", "display:none;");
+            formEl.setAttribute("style", "display: block;");
+            qaEl.setAttribute("style", "display: none;");
+            finalScore();
+        }else {
+            qaGenerator();}
+         });
+        }
+}
+
+// description: sets timer to 60 seconds and subtracts each time a second, if no time left the timer stops and the time is set to zero. 
+// the timer doesn't go below zero.
+// input: no input.
+// output: no output.
+function timer(){
+    var timeIntervael = setInterval(function() {
+    secondsLeft--;
+    if (index < questionArray.length){
+        timeEl.textContent = secondsLeft;
+        if (secondsLeft <= 0) {
+            clearInterval(timeIntervael);
+            timeEl.textContent = 0;
+            }
+    }else{
+        clearInterval(timeIntervael);
+    }},1000);
+}
+
+
+startButtonEl.addEventListener("click", function(){
+    qaGenerator();
+    timer();
+    qaEl.setAttribute("style", "display:block");
+    containerEl.setAttribute("style", "display:none");
+});
+
+
 
 function qaGenerator() {
-    // console.log("Generating" + index);
     if (index < questionArray.length){
         questionEl.textContent = questionArray[index].question;
-    //    console.log(questionArray[index].question);
         for (let i = 0; i < 4; i++) {
             let answerEl = document.getElementById("option" + (i+1));
             answerEl.textContent = questionArray[index].choices[i];
-            // console.log(answerEl);
         }
     }
 }
 
 
-function checkAnswer(e){
-    
-    if (index >= questionArray.length) {
-        return;
-    }
-
-    if (e !== null) {
-        console.log(e.target);
-        // console.log("the event target inner text is: " + ev.target.innerText);
-        // console.log("the options are : " + questionArray[index].answer);
-        if (e.target.innerText === questionArray[index].answer) {
+function checkAnswer(event){
+    if (index<questionArray.length && event !== null) {
+        if (event.target.innerText === questionArray[index].answer) {
             commentResultEl.innerText = "Correct answer"; 
-            // console.log(commentResultEl);
-            // console.log(index);
-        }
-        else {
+        }else{
             commentResultEl.innerText = "Wrong answer";
-            // console.log("the answer is: " + commentResultEl);
             secondsLeft-=15;
-        }
+        }    
     }
-}
+ }
+
 
 
 
 function finalScore() {
     var finalScore = timeEl.textContent;
-    // console.log("your final score is: "+ finalScore);
     timeEl.setAttribute("style", "display:none");
     resultPEl.textContent = " your score is " + finalScore;
     highScores(finalScore);
@@ -150,53 +142,37 @@ function finalScore() {
 // when the user clicks submit, the input will be saved in the local storage 
 
 function highScores(score) {
-
-            submitEl.addEventListener("click", function(){
+            submitEl.addEventListener("click", function(event){
                 event.preventDefault();
                 var initial = initialsEl.value.trim();
-                // console.log(initial);
                localStorage.setItem(initial, score);
                showtableScores(initial);
                });
 }
 
 function showtableScores(initial){
-
-
-    console.log(orderedListScores);
     formEl.setAttribute("style", "display: none;");
     tableEl.setAttribute("style", "display:block;");
-    // console.log(localStorage.getItem(initial));
     var getScore = JSON.parse(localStorage.getItem(initial));
-    // console.log(getScore);
-
     var scoreItem = document.createElement("li");
-    // console.log(scoreItem);
-    
     scoreItem.textContent = getScore.toString();
     orderedListScores.appendChild(scoreItem);
-    // console.log(orderedListScores);
 }
 
 
 // redo quiz
-
 var redoQuiz = document.getElementById("redo-quiz");
-// console.log("the redo button shows: " +redoQuiz);
 redoQuiz.addEventListener("click", function(){
     index = 0;
     secondsLeft = 60;
-   
     orderedListScores.innerHTML = '';
+    commentResultEl.innerText = '';
+    commentResultEl.setAttribute("style", "display:block;");
     tableEl.setAttribute("style","display:none");
-   
     qaEl.setAttribute("style", "display:block;");
     qaGenerator();
-
-    
     timeEl.setAttribute("style", "display:block");
     timer();
-    checkAnswer();
 });
 
 
