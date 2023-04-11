@@ -4,30 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;700;900&family=Open+Sans:wght@700&family=Ubuntu&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">    
+<title>Document</title>
 </head>
 <body>
 
-    <div id="container-page1">
+    <div id="container-page1" class="container-fluid">
         <div class="header">
             <h1 id="header-title">Code Quiz</h1>
         </div>
         <div class="start-content">
             <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque, repellat.</p>
-            <button id="start-button">Start</button>
+            <button type="button" id="start-button" class="btn btn-outline-dark btn-lg">Start</button>
         </div>
     </div>
 
 
-    <div id="question-answer-container">
+    <div id="question-answer-container" class="container-fluid">
 
         <div id="question"></div>
         <ol>
-            <li><button id="option1"></button></li>
-            <li><button id="option2"></button></li>
-            <li><button id="option3"></button></li>
-            <li><button id="option4"></button></li>
+            <li><button id="option1" class="btn btn-outline-dark"></button></li>
+            <li><button id="option2" class="btn btn-outline-dark"></button></li>
+            <li><button id="option3" class="btn btn-outline-dark"></button></li>
+            <li><button id="option4" class="btn btn-outline-dark"></button></li>
         </ol>
 
 
@@ -37,20 +40,20 @@
 
     </div>
 
-    <div id="timer-container">
+    <div id="timer-container" class="container-fluid">
         <h1 class="time" style="text-align:right;"></h1>
     </div>
 
     
-        <div id="input-container">
-            <div class="card">
+        <div id="input-container" class="container-fluid">
+            <div class="card-input">
                 <h2>All Done!</h2>
                 <p id="text-result"></p>
                 <form method="POST">
                   <div class="input-group">
                     <label for="msg">Enter Initials</label>
                     <input type="text" name="initials" id="msg" placeholder="Initials"/>
-                    <button id="submit">Submit</button>
+                    <button id="submit" class="btn btn-outline-dark">Submit</button>
                   </div>
                   <div id="msg"></div>
             
@@ -59,7 +62,7 @@
         </div>
 
 
-        <div id="highscores-container">
+        <div id="highscores-container" class="container-fluid">
             <h1>Highscores</h1>
 
             <div>
@@ -68,14 +71,14 @@
                 </ol>
             </div>
 
-            <button id="redo-quiz">Try again</button>
+            <button id="redo-quiz" class="btn btn-outline-dark">Try again</button>
 
         </div>
    
 
 
 
-
+        
 <script src="app.js"></script>
 </body>
 </html>
