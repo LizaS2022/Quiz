@@ -19,3 +19,7 @@ Links
 [Link of the gitHub repository](https://github.com/LizaS2022/Quiz1.git).
 
 Usage
+
+The webpage is optimized and can be viewed on various screens and devices.
+
+![1681242228480](image/README/1681242228480.png)
